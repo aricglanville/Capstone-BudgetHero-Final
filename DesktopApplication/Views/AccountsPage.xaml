@@ -1,0 +1,150 @@
+﻿<Page
+    x:Class="DesktopApplication.Views.AccountsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:DesktopApplication.Converters"
+    xmlns:models="using:ModelsLibrary" mc:Ignorable="d" Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:DateToStringConverter
+                x:Name="DateToStringConverter"
+                Format="MM/dd/yyyy"/>
+            <converters:DecimalToStringConverter
+                x:Name="DecimalToStringConverter"
+                Format="C2"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid x:Name="ContentArea">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="320"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- This Border will contain any buttons that are used for interacting with the work area such as adding new items-->
+            <Border Grid.Row="0" x:Name="Toolbar" Grid.Column="0" Background="#023e8a" Width="auto" Height="75" CornerRadius="10,10,0,0" BorderBrush="Black" BorderThickness="2,2,2,0" VerticalAlignment="Top">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Add Account" Margin="20" 
+                            Command="{x:Bind ViewModel.ShowAddDialogCommand}"/>
+                    <Button Content="Transfer Funds" Margin="20"
+                            Command="{x:Bind ViewModel.ShowTransferDialogCommand}"
+                            Visibility="{x:Bind ViewModel.HasMultipleAccounts, Mode=OneWay}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- This stack panel is for whatever control is needed for the work area-->
+            <StackPanel x:Name="Work_Area" Background="White" Grid.Row="1" CornerRadius="0,0,10,10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2">
+                <controls:DataGrid x:Name="Accounts_Grid" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="True" 
+                                   CanUserResizeColumns="True" CanUserSortColumns="True" AlternatingRowBackground="LightGray" 
+                                   GridLinesVisibility="All" SelectionMode="Single" ItemsSource="{x:Bind ViewModel.BankAccounts, Mode=OneWay}"
+                                   SelectedItem="{x:Bind ViewModel.SelectedBankAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <controls:DataGrid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Style>
+                    </controls:DataGrid.Resources>
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="Account Name" Width="2*" Binding="{Binding BankName}"/>
+                        <controls:DataGridTextColumn Header="Account Type" Width="2*" Binding="{Binding AccountType}"/>
+                        <controls:DataGridTextColumn Header="Balance" Width="2*" Binding="{Binding Balance, Converter={StaticResource DecimalToStringConverter}}"/>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+            </StackPanel>
+        </Grid>
+
+        <!-- This stack panel will show the details of any selected item from the work area -->
+        <Grid x:Name="Details_Pane" Background="LightGray" Grid.Column="1" HorizontalAlignment="Right" Width="300" Margin="10 0 10 0" CornerRadius="10" BorderBrush="Black" BorderThickness="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <!-- This text block is just the title header-->
+            <TextBlock Grid.Row="0" Text="Details" TextAlignment="Center" Foreground="Black" FontSize="30" Padding="0 20 0 0"/>
+
+            <!-- This border contains the details textbox-->
+            <Border Grid.Row="1" x:Name="Details_TxtBox" Background="White" Width="275"  CornerRadius="10" BorderBrush="Black" Margin="0 20 0 0" >
+                <!-- There will be a datagrid located here that will show the current transactions related to the selected account in the work area -->
+                
+                <!--DataGrid Option-->
+                
+                <!--<controls:DataGrid x:Name="TransactionData" AutoGenerateColumns="False" IsReadOnly="True" CanUserReorderColumns="True" 
+                                   CanUserResizeColumns="True" CanUserSortColumns="True" AlternatingRowBackground="LightGray" 
+                                   GridLinesVisibility="All" SelectionMode="Extended"
+                                   ItemsSource="{x:Bind ViewModel.AccountTransactions, Mode=OneWay}">
+
+                    <controls:DataGrid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Foreground" Value="Black"/>
+                        </Style>
+                    </controls:DataGrid.Resources>
+
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn 
+                            Header="Date" Width="1*" 
+                            Binding="{Binding TransactionDate, Converter={StaticResource DateToStringConverter}}"/>
+                        <controls:DataGridTextColumn 
+                            Header="Payee" Width="2*" 
+                            Binding="{Binding TransactionPayee}"/>
+                        <controls:DataGridTextColumn 
+                            Header="Category" Width="1*" Binding="{Binding CategoryName}"/>
+                        <controls:DataGridTextColumn 
+                            Header="Memo" Width="2*" 
+                            Binding="{Binding TransactionMemo}"/>
+                        <controls:DataGridTextColumn 
+                            Header="Outflow" Width="1*" Binding="{Binding ExpenseAmount, Converter={StaticResource DecimalToStringConverter}}"/>
+                        <controls:DataGridTextColumn 
+                            Header="Inflow" Width="1*" Binding="{Binding DepositAmount, Converter={StaticResource DecimalToStringConverter}}"/>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>-->
+                
+                <!--ListView Option-->
+
+                <ListView ItemsSource="{x:Bind ViewModel.AccountTransactions, Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:Name="AccountDetailsTemplate" x:DataType="models:Transaction">
+                            <StackPanel Orientation="Vertical" Margin="10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Date:" Width="75"  FontWeight="Black"/>
+                                    <TextBlock Text="{x:Bind TransactionDate, Converter={StaticResource DateToStringConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Payee:" Width="75"  FontWeight="Bold"/>
+                                    <TextBlock Text="{x:Bind TransactionPayee}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Expensed:" Width="75" FontWeight="Bold"/>
+                                    <TextBlock Text="{x:Bind ExpenseAmount, Converter={StaticResource DecimalToStringConverter}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Deposited:" Width="75" FontWeight="Bold"/>
+                                    <TextBlock Text="{x:Bind DepositAmount, Converter={StaticResource DecimalToStringConverter}}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Margin="10" 
+                        Content="Edit Account" 
+                        IsEnabled="{x:Bind ViewModel.HasItemSelected, Mode=OneWay}"
+                        Command="{x:Bind ViewModel.ShowEditDialogCommand}"/>
+                <Button Margin="10" 
+                        Content="Delete Account"
+                        IsEnabled="{x:Bind ViewModel.HasItemSelected, Mode=OneWay}"
+                        Command="{x:Bind ViewModel.ShowDeleteDialogCommand}"/>
+            </StackPanel>
+        </Grid>
+      </Grid>
+</Page>

@@ -1,0 +1,146 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>DesktopApplication</RootNamespace>
+    <ApplicationIcon>Assets/WindowIcon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;arm64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Assets\budgetherologo.png" />
+    <None Remove="Assets\WindowIcon.ico" />
+    <None Remove="Assets\WindowIcon2.ico" />
+    <None Remove="Controls\AppLogoControl.xaml" />
+    <None Remove="Styles\Brushes.xaml" />
+    <None Remove="Styles\Layouts.xaml" />
+    <None Remove="Styles\Styles.xaml" />
+    <None Remove="ViewModels\Forms\DeleteItemForm.xaml" />
+    <None Remove="Views\Forms\AddCategoryGroupForm.xaml" />
+    <None Remove="Views\Forms\AddHouseholdBudgetItemForm.xaml" />
+    <None Remove="Views\Forms\BankAccountForm.xaml" />
+    <None Remove="Views\Forms\DeleteCategoryGroupForm.xaml" />
+    <None Remove="Views\Forms\DeleteTransactionForm.xaml" />
+    <None Remove="Views\Forms\EditCategoryGroupForm.xaml" />
+    <None Remove="Views\Forms\DeleteAccountForm.xaml" />
+    <None Remove="Views\Forms\EditHouseholdBudgetItemForm.xaml" />
+    <None Remove="Views\Forms\InviteUserForm.xaml" />
+    <None Remove="Views\Forms\JoinHouseholdForm.xaml" />
+    <None Remove="Views\Forms\TransactionForm.xaml" />
+    <None Remove="Views\Forms\TransferFundsForm.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221116.1" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+    <PackageReference Include="Syncfusion.Calendar.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="Syncfusion.Chart.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="Syncfusion.Core.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="Syncfusion.Editors.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
+    <PackageReference Include="Syncfusion.Grid.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="Syncfusion.GridCommon.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="Syncfusion.GridExport.WinUI" Version="20.3.0.58" />
+    <PackageReference Include="WinUIEx" Version="1.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DebugTools\DebugTools.csproj" />
+    <ProjectReference Include="..\DesktopApplication.Core\DesktopApplication.Core.csproj" />
+    <ProjectReference Include="..\ModelsLibrary\ModelsLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Assets\budgetherologo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Icons\House.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\WindowIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\WindowIcon2.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Update="Views\Forms\EditHouseholdBudgetItemForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\AddHouseholdBudgetItemForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\InviteUserForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\JoinHouseholdForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\TransferFundsForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ViewModels\Forms\DeleteItemForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Styles\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\EditCategoryGroupForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\DeleteCategoryGroupForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\AddCategoryGroupForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\DeleteAccountForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\DeleteTransactionForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\TransactionForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Styles\Layouts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\Forms\BankAccountForm.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Controls\AppLogoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Styles\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
+</Project>

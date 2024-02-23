@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="DesktopApplication.Views.Forms.TransactionForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DesktopApplication.Views.Forms"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:DesktopApplication.Converters"
+    mc:Ignorable="d" Loaded="Page_Loaded">
+    
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:DateToStringConverter
+                x:Name="DateToStringConverter"
+                Format="MM/dd/yyyy"/>
+            <converters:DatePickerConverter
+                x:Name="DatePickerConverter"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2.5*" />
+        </Grid.RowDefinitions>
+        
+        <RadioButtons x:Name="TransactionType" 
+                      Header="Transaction Type:"
+                      MaxColumns="2" Grid.Row="0" 
+                      SelectionChanged="TransactionType_SelectionChanged"
+                      SelectedIndex="{x:Bind ViewModel.TransactionType, Mode=TwoWay}">
+            <RadioButton x:Name="ExpenseRadButton" Content="Expense"
+                         Checked="ExpenseRadButton_Checked"
+                         IsChecked="{x:Bind ViewModel.HasExpenseChecked, Mode=TwoWay}"/>
+            <RadioButton x:Name="DepositRadButton" Content="Deposit"
+                         Checked="DepositRadButton_Checked"
+                         IsChecked="{x:Bind ViewModel.HasDepositChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </RadioButtons>
+
+        <StackPanel x:Name="TransactionInputPanel" Grid.Row="1">
+
+            <CalendarDatePicker x:Name="TransactionDatePicker" 
+                                Header="Date:"
+                                Date="{x:Bind ViewModel.ObservableTransaction.TransactionDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                              Converter={StaticResource DatePickerConverter}}"/>
+            <TextBlock x:Name="dpInvalidDateError" Style="{StaticResource FormErrorTextStyle}" 
+                       Visibility="Collapsed"
+                       Text="Please select a date."/>
+
+            <TextBox x:Name="TransactionPayeeTextBox" 
+                     Header="Payee:"
+                     PlaceholderText="Enter Payee"
+                     Text="{x:Bind ViewModel.ObservableTransaction.TransactionPayee, 
+                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock x:Name="tbInvalidPayeeError" Style="{StaticResource FormErrorTextStyle}" 
+                       Visibility="Collapsed"
+                       Text="Please enter a payee."/>
+
+            <TextBox x:Name="ExpenseAmount" Header="Amount:"
+                     Visibility="{x:Bind ViewModel.HasExpenseChecked, Mode=OneWay}"
+                     Text="{x:Bind ViewModel.ObservableTransaction.ExpenseAmount,
+                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox x:Name="DepositAmount" Header="Amount:" 
+                     Visibility="{x:Bind ViewModel.HasDepositChecked, Mode=OneWay}"
+                     Text="{x:Bind ViewModel.ObservableTransaction.DepositAmount,
+                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock x:Name="tbInvalidNumberError" Style="{StaticResource FormErrorTextStyle}" 
+                       Visibility="Collapsed"
+                       Text="Please enter a number."/>
+
+            <TextBlock Text="Bank Account:"/>
+
+            <ComboBox x:Name="BankAccountComboBox" PlaceholderText="Select Bank Account"
+                      SelectedValue="{x:Bind ViewModel.SelectedBankAccount, Mode=TwoWay}"
+                      ItemsSource="{x:Bind ViewModel.BankAccounts}" />
+            <TextBlock x:Name="tbInvalidAccountError" Style="{StaticResource FormErrorTextStyle}" 
+                       Visibility="Collapsed"
+                       Text="Please select an account."/>
+
+            <TextBlock Text="Category"/>
+
+            <ComboBox x:Name="ExpenseCategoryCombo" PlaceholderText="Select Category"
+                      SelectedValue="{x:Bind ViewModel.SelectedCategory, Mode=TwoWay}"
+                      ItemsSource="{x:Bind ViewModel.BudgetCategories}"
+                      DisplayMemberPath="CategoryName"/>
+            <TextBlock x:Name="tbInvalidCategoryError" Style="{StaticResource FormErrorTextStyle}" 
+                       Visibility="Collapsed"
+                       Text="Please select a category."/>
+
+            <TextBox x:Name="TransactionMemo" Header="Memo:" 
+                     TextWrapping="Wrap" PlaceholderText="Enter Memo (optional)"
+                     Text="{x:Bind ViewModel.ObservableTransaction.TransactionMemo, 
+                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            
+        </StackPanel>
+
+    </Grid>
+</Page>

@@ -1,0 +1,54 @@
+﻿<Page
+    x:Class="DesktopApplication.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:DesktopApplication.Controls"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    Unloaded="Page_Unloaded">
+
+    <Grid x:Name="ContentArea">
+        <StackPanel Orientation="Vertical" Background="{StaticResource PrimaryBackgroundBrush}">
+            <controls:AppLogoControl/>
+            <ProgressRing IsActive="{x:Bind ViewModel.LoginCommand.IsRunning, Mode=OneWay}" />
+            <TextBlock x:Name="tbUsernameOrPasswordInvalid" HorizontalAlignment="Center" Foreground="{StaticResource ErrorForegroundBrush}" FontWeight="bold" Visibility="Collapsed">
+                Invalid username or password
+            </TextBlock>
+            <TextBlock x:Name="tbUsernameEmptyError" HorizontalAlignment="Center" Foreground="{StaticResource ErrorForegroundBrush}" FontWeight="bold" Visibility="Collapsed">
+                Username cannot be blank
+            </TextBlock>
+            <TextBox x:Name="txtUsername" 
+                     KeyDown="OnKeyDown"
+                     Width="300" 
+                     Header="Username" 
+                     PlaceholderText="Username" 
+                     Foreground="{StaticResource PrimaryForegroundBrush}"
+                     Text="{x:Bind ViewModel.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     />
+            <TextBlock x:Name="tbPasswordBlankError" HorizontalAlignment="Center" Foreground="{StaticResource ErrorForegroundBrush}" FontWeight="bold" Visibility="Collapsed">
+                Password cannot be blank
+            </TextBlock>
+            <PasswordBox x:Name="pwbPassword" 
+                         KeyDown="OnKeyDown"
+                         Width="300" 
+                         Header="Password" 
+                         PlaceholderText="Enter your password" 
+                         Margin="0 10 0 0" 
+                         Foreground="{StaticResource PrimaryForegroundBrush}"
+                         Password="{x:Bind ViewModel.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <HyperlinkButton Content="Sign Up" Foreground="{StaticResource PrimaryForegroundBrush}" Command="{x:Bind ViewModel.SignUpCommand}"/>
+                <HyperlinkButton Content="Forgot Password" Foreground="{StaticResource PrimaryForegroundBrush}"/>
+            </StackPanel>
+            <Button Content="Log In" 
+                    HorizontalAlignment="Center" 
+                    Margin="0 10 0 0"
+                    IsEnabled="{x:Bind ViewModel.IsFormComplete, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Command="{x:Bind ViewModel.LoginCommand}">
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="DesktopApplication.Views.Forms.DeleteCategoryGroupForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DesktopApplication.Views.Forms"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Loaded="Page_Loaded">
+
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <!-- Content body -->
+        <TextBlock x:Name="DeleteCategoryGroupError" HorizontalAlignment="Center" Foreground="{StaticResource ErrorForegroundBrush}" FontWeight="Bold" Visibility="Collapsed" Text="Choose a Group to Delete"/>
+        <ComboBox Grid.Row="0" x:Name="DeleteCategoryGroupCombo" PlaceholderText="Choose Group To Delete"
+                   SelectedItem="{x:Bind ViewModel.SelectedCategoryGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                   ItemsSource="{x:Bind ViewModel.BudgetCategoryGroups}"
+                   DisplayMemberPath="CategoryGroupDesc"/>
+    </StackPanel>
+</Page>
